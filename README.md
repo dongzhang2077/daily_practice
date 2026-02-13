@@ -96,12 +96,28 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- Total problems solved: 0
-- Current streak: 0 days
+- **Total problems solved:** 1
+- **Current streak:** 1 day
+- **Last updated:** 2026-02-12
 
 ## 📝 最近解题记录
 
-*暂无记录*
+### 2026-02-12
+- ✅ [check_if_undefined](./solutions/2026-02-12/) - **8kyu** - Bug Fix
+  - 修复 JavaScript 中检查 undefined 的错误实现
+  - 学习点：`undefined` 是类型而非字符串
+
+---
+
+## 📈 难度分布
+
+| 难度 | 数量 |
+|------|------|
+| 8kyu | 1    |
+| 7kyu | 0    |
+| 6kyu | 0    |
+| 5kyu | 0    |
+| 4kyu | 0    |
 
 ---
 
