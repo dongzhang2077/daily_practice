@@ -17,7 +17,7 @@ Examples:
 "(( @"     =>  "))(("
 """
 
-# JavaScript Solution
+# My Solution
 """
 function duplicateEncode(word){
     // Use a dictionary/map to count character occurrences
@@ -58,53 +58,18 @@ function duplicateEncode(word){
 }
 """
 
-# Python Equivalent Solution
-def duplicate_encode(word):
-    """
-    Convert string to encoded format based on character frequency.
-    
-    Args:
-        word: Input string
-        
-    Returns:
-        Encoded string with '(' for unique chars and ')' for duplicates
-    """
-    # Convert to lowercase for case-insensitive comparison
-    word_lower = word.lower()
-    
-    # Count character frequencies
-    char_count = {}
-    for char in word_lower:
-        char_count[char] = char_count.get(char, 0) + 1
-    
-    # Build output based on frequency
-    output = ""
-    for char in word_lower:
-        if char_count[char] == 1:
-            output += "("
-        else:
-            output += ")"
-    
-    return output
+# Reference: Better Solution
+"""
+function duplicateEncode(word){
+  const lower = word.toLowerCase();
+  return [...lower].map(c => 
+    lower.split(c).length > 2 ? ')' : '('
+  ).join('');
+}
 
-
-# Alternative Python Solution (More Pythonic)
-def duplicate_encode_v2(word):
-    """One-liner using list comprehension and count method."""
-    word_lower = word.lower()
-    return ''.join('(' if word_lower.count(c) == 1 else ')' for c in word_lower)
-
-
-# Test cases
-if __name__ == "__main__":
-    test_cases = [
-        ("din", "((("),
-        ("recede", "()()()"),
-        ("Success", ")())())"),
-        ("(( @", "))(("),
-    ]
-    
-    for input_str, expected in test_cases:
-        result = duplicate_encode(input_str)
-        status = "✓" if result == expected else "✗"
-        print(f"{status} duplicate_encode('{input_str}') => '{result}' (expected '{expected}')")
+Explanation:
+- split(c) splits the string by character c
+- If c appears 2 times, split creates 3 segments
+- If c appears 1 time, split creates 2 segments
+- Clever use of split() to count occurrences without explicit counting
+"""

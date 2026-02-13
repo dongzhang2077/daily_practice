@@ -20,27 +20,19 @@
 "(( @"     =>  "))(("
 ```
 
-## 解题思路
+## 我的解决方案
 
-### 算法步骤
+### 算法思路
 
 1. **第一遍遍历：统计字符频率**
    - 使用字典/Map存储每个字符的出现次数
    - 将所有字符转换为小写（忽略大小写）
-   - 遍历字符串，记录每个字符出现的次数
 
 2. **第二遍遍历：构建结果**
    - 按原字符串顺序遍历
-   - 如果字符出现次数为1，添加 `"("`
-   - 否则添加 `")"`
+   - 如果字符出现次数为1，添加 `"("`，否则添加 `")"`
 
-### 时间复杂度
-- **O(n)** - 需要遍历字符串两次，n为字符串长度
-
-### 空间复杂度
-- **O(k)** - 需要字典存储不同字符的计数，k为不同字符的数量
-
-## JavaScript解决方案
+### 代码实现
 
 ```javascript
 function duplicateEncode(word){
@@ -73,70 +65,39 @@ function duplicateEncode(word){
 }
 ```
 
-## Python解决方案
+### 复杂度分析
 
-### 方案1：标准实现
-```python
-def duplicate_encode(word):
-    word_lower = word.lower()
-    
-    # Count character frequencies
-    char_count = {}
-    for char in word_lower:
-        char_count[char] = char_count.get(char, 0) + 1
-    
-    # Build output based on frequency
-    output = ""
-    for char in word_lower:
-        if char_count[char] == 1:
-            output += "("
-        else:
-            output += ")"
-    
-    return output
+- **时间复杂度:** O(n) - 遍历字符串两次
+- **空间复杂度:** O(k) - k为不同字符的数量
+
+## 参考：更优雅的解法
+
+```javascript
+function duplicateEncode(word){
+  const lower = word.toLowerCase();
+  return [...lower].map(c => 
+    lower.split(c).length > 2 ? ')' : '('
+  ).join('');
+}
 ```
 
-### 方案2：更Pythonic的实现
-```python
-def duplicate_encode(word):
-    word_lower = word.lower()
-    return ''.join('(' if word_lower.count(c) == 1 else ')' for c in word_lower)
-```
+### 原理解析
 
-注意：方案2虽然代码简洁，但时间复杂度为O(n²)，因为每次count()都要遍历整个字符串。
+- `split(c)` 会把字符串按字符 `c` 切割
+- 如果 `c` 出现 2 次，会切出 3 段
+- 如果 `c` 出现 1 次，会切出 2 段
+- 巧妙利用 split() 的特性来判断字符出现次数，无需显式计数
+
+### 对比
+
+| 方法 | 优点 | 缺点 |
+|------|------|------|
+| 我的方法 | 时间复杂度O(n)，高效 | 代码较长 |
+| 参考方法 | 代码简洁优雅 | 时间复杂度O(n²)，每次split都遍历 |
 
 ## 关键点总结
-
-1. **大小写处理**
-   - 使用 `toLowerCase()` / `lower()` 统一转换
-   - "Success" 中的 'S' 和 's' 被视为相同字符
-
-2. **数据结构选择**
-   - JavaScript：使用对象 `{}` 作为字典
-   - Python：使用字典 `dict` 或 `Counter`
-
-3. **两次遍历**
-   - 第一次统计频率
-   - 第二次构建结果
-   - 保证了O(n)的时间复杂度
-
-4. **边界情况**
-   - 空字符串：返回空字符串
-   - 特殊字符（如空格、括号）：也需要计数
-   - 例如 `"(( @"` 中的空格和 `(` 都出现两次
-
-## 测试用例
-
-| 输入 | 输出 | 说明 |
-|------|------|------|
-| `"din"` | `"((("` | 所有字符都只出现一次 |
-| `"recede"` | `"()()()"` | 'e'出现3次，其他各出现1次 |
-| `"Success"` | `")())())"` | 's'出现3次（忽略大小写） |
-| `"(( @"` | `"))(("` | 特殊字符也要计数 |
-
-## 学习要点
 
 - ✅ 字符频率统计的经典模式
 - ✅ 使用哈希表/字典优化查找
 - ✅ 大小写敏感性处理
-- ✅ 时间复杂度优化（两次遍历 vs 嵌套遍历）
+- ✅ 两次遍历保证O(n)时间复杂度
