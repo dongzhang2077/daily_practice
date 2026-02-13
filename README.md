@@ -96,11 +96,16 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- **Total problems solved:** 1
-- **Current streak:** 1 day
-- **Last updated:** 2026-02-12
+- **Total problems solved:** 2
+- **Current streak:** 2 days
+- **Last updated:** 2026-02-13
 
 ## 📝 最近解题记录
+
+### 2026-02-13
+- ✅ [duplicate_encoder](./solutions/2026-02-13/) - **6kyu** - 字符频率统计
+  - 使用哈希表统计字符出现次数
+  - 学习点：两次遍历优化、大小写处理、时间复杂度O(n)
 
 ### 2026-02-12
 - ✅ [check_if_undefined](./solutions/2026-02-12/) - **8kyu** - Bug Fix
@@ -115,7 +120,7 @@ def two_sum(numbers, target):
 |------|------|
 | 8kyu | 1    |
 | 7kyu | 0    |
-| 6kyu | 0    |
+| 6kyu | 1    |
 | 5kyu | 0    |
 | 4kyu | 0    |
 
