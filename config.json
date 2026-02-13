@@ -1,0 +1,15 @@
+{
+  "github": {
+    "username": "dongzhang2077",
+    "repo": "daily_practice",
+    "branch": "main"
+  },
+  "preferences": {
+    "auto_push": true,
+    "create_readme": true,
+    "language": "zh-CN"
+  },
+  "codewars": {
+    "username": ""
+  }
+}
