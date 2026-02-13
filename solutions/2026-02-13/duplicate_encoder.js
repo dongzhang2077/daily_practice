@@ -1,4 +1,4 @@
-"""
+/*
 Problem: duplicate_encoder
 Difficulty: 6kyu
 Date: 2026-02-13
@@ -15,10 +15,9 @@ Examples:
 "recede"   =>  "()()()"
 "Success"  =>  ")())())"
 "(( @"     =>  "))(("
-"""
+*/
 
-# My Solution
-"""
+// My Solution
 function duplicateEncode(word){
     // Use a dictionary/map to count character occurrences
     // char c = word[i].toLowerCase()
@@ -56,10 +55,9 @@ function duplicateEncode(word){
     
     return output;
 }
-"""
 
-# Reference: Better Solution
-"""
+// Reference: Better Solution
+/*
 function duplicateEncode(word){
   const lower = word.toLowerCase();
   return [...lower].map(c => 
@@ -72,4 +70,4 @@ Explanation:
 - If c appears 2 times, split creates 3 segments
 - If c appears 1 time, split creates 2 segments
 - Clever use of split() to count occurrences without explicit counting
-"""
+*/

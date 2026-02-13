@@ -10,10 +10,11 @@ daily_practice/
 ├── .gitignore            # Git忽略配置
 ├── auto_submit.py        # 自动提交工具（完整模式）
 ├── quick_submit.py       # 快速提交工具（简化模式）
+├── super_submit.py       # 终极自动化工具（推荐）
 ├── submit_daily.sh       # Bash脚本提交
 └── solutions/            # 解题记录
     └── YYYY-MM-DD/       # 按日期组织
-        ├── problem_name.py
+        ├── problem_name.js
         └── README.md
 ```
 
