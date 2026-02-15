@@ -97,11 +97,19 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- **Total problems solved:** 2
-- **Current streak:** 2 days
-- **Last updated:** 2026-02-13
+- **Total problems solved:** 4
+- **Current streak:** 3 days
+- **Last updated:** 2026-02-14
 
 ## 📝 最近解题记录
+
+### 2026-02-14
+- ✅ [add_binary](./solutions/2026-02-14/) - **7kyu** - 十进制转二进制
+  - 利用 `Number.toString(2)` 一行实现
+  - 学习点：`toString(radix)` 任意进制转换
+- ✅ [dig_pow](./solutions/2026-02-14/) - **6kyu** - 数字幂次和
+  - 各位数字依次升幂求和，判断是否为 n 的整数倍
+  - 学习点：`reduce` 累加、`Math.pow`、整除判断
 
 ### 2026-02-13
 - ✅ [duplicate_encoder](./solutions/2026-02-13/) - **6kyu** - 字符频率统计
@@ -120,8 +128,8 @@ def two_sum(numbers, target):
 | 难度 | 数量 |
 |------|------|
 | 8kyu | 1    |
-| 7kyu | 0    |
-| 6kyu | 1    |
+| 7kyu | 1    |
+| 6kyu | 2    |
 | 5kyu | 0    |
 | 4kyu | 0    |
 
