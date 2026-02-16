@@ -19,9 +19,10 @@ daily_practice/
 ├── config.json           # GitHub + preferences config
 ├── solutions/
 │   └── YYYY-MM-DD/
-│       ├── problem_name.js   # Solution file
-│       └── README.md         # Problem writeup (Chinese)
+│       └── problem_name.js   # Solution file (with inline comments)
 ```
+
+**Note:** Daily README files are NO LONGER created. Keep it simple - all notes, thoughts, and learning points go directly in the solution file as English comments.
 
 ## Build / Lint / Test Commands
 
@@ -114,6 +115,9 @@ Brief problem description here
 
 // My Solution
 function solutionName(args) {
+    // Add inline English comments explaining approach and key learnings
+    // Example: Use destructuring to extract values cleanly
+    // Key learning: Array.reduce() with destructured parameters
     // implementation
 }
 
@@ -123,7 +127,14 @@ function solutionName(args) {
     // alternative approach
 }
 */
+
+// Test cases (if applicable)
+const chai = require("chai");
+const assert = chai.assert;
+// ... test code
 ```
+
+**Important:** All thoughts, algorithm explanations, and learning points should be in **English comments** within the code. Do NOT create separate README.md files for daily solutions.
 
 ### Naming
 - **Functions:** `camelCase` — `duplicateEncode`, `isUndefined`
@@ -141,37 +152,8 @@ function solutionName(args) {
 - `===` strict equality (never `==`)
 - `let` for mutable, `const` for immutable
 - `.split('').forEach()` for character iteration
-- Comments explain algorithm approach before code
-
-## Solution README Format
-
-Each `solutions/YYYY-MM-DD/README.md` is written in Chinese with this structure:
-
-```markdown
-# problem_name
-
-**难度:** {difficulty}
-**完成时间:** {date}
-**URL:** {url}
-
-## 题目描述
-...
-
-## 我的解决方案
-### 算法思路
-1. Step-by-step approach
-### 代码实现
-(code block)
-### 复杂度分析
-- **时间复杂度:** O(...)
-- **空间复杂度:** O(...)
-
-## 参考：更优雅的解法 (optional)
-(alternative solution with explanation)
-
-## 关键点总结
-- ✅ Key takeaway
-```
+- **Comments in English** - explain algorithm approach, key learnings, and insights directly in code
+- Prefer concise inline comments over verbose documentation
 
 ## Config (config.json)
 
@@ -187,9 +169,10 @@ Do not hardcode GitHub credentials. Read from config.json at runtime.
 ## Important Notes for Agents
 
 1. **Language:** User interface and documentation are in Chinese (zh-CN). Maintain this.
-2. **No tests exist.** Validate solutions manually with `node` if needed.
-3. **No linter/formatter configured.** Match existing style by reading adjacent files.
-4. **Solutions can be JS or Python** — file extension in scripts defaults to `.py` but actual solutions use `.js`. Respect the language used.
-5. **Dates matter.** Solutions are organized by `YYYY-MM-DD`. Use `datetime.now()` or `date +%Y-%m-%d`.
-6. **Don't break auto_push.** The scripts auto-commit and push. Be careful with `git add .` scope.
-7. **Keep it simple.** This is a personal practice repo — no CI/CD, no complex tooling.
+2. **No daily README files:** Do NOT create `solutions/YYYY-MM-DD/README.md`. All notes, thoughts, and learning points go directly in the solution file as **English comments**.
+3. **No tests exist.** Validate solutions manually with `node` if needed.
+4. **No linter/formatter configured.** Match existing style by reading adjacent files.
+5. **Solutions can be JS or Python** — file extension in scripts defaults to `.py` but actual solutions use `.js`. Respect the language used.
+6. **Dates matter.** Solutions are organized by `YYYY-MM-DD`. Use `datetime.now()` or `date +%Y-%m-%d`.
+7. **Don't break auto_push.** The scripts auto-commit and push. Be careful with `git add .` scope.
+8. **Keep it simple.** This is a personal practice repo — no CI/CD, no complex tooling. Prefer concise inline comments over separate documentation.
