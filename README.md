@@ -97,11 +97,16 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- **Total problems solved:** 4
-- **Current streak:** 3 days
-- **Last updated:** 2026-02-14
+- **Total problems solved:** 5
+- **Current streak:** 4 days
+- **Last updated:** 2026-02-15
 
 ## 📝 最近解题记录
+
+### 2026-02-15
+- ✅ [number_of_people_in_bus](./solutions/2026-02-15/) - **7kyu** - 统计公交车上剩余人数
+  - 利用数组解构 `[on, off]` 配合 `reduce` 累加计算
+  - 学习点：destructuring in callback parameters
 
 ### 2026-02-14
 - ✅ [add_binary](./solutions/2026-02-14/) - **7kyu** - 十进制转二进制
@@ -128,7 +133,7 @@ def two_sum(numbers, target):
 | 难度 | 数量 |
 |------|------|
 | 8kyu | 1    |
-| 7kyu | 1    |
+| 7kyu | 2    |
 | 6kyu | 2    |
 | 5kyu | 0    |
 | 4kyu | 0    |
