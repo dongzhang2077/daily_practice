@@ -12,8 +12,11 @@ from datetime import datetime
 
 
 def run_command(cmd):
-    """执行shell命令"""
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    """执行shell命令（通过 wsl 运行以支持 UNC 路径）"""
+    result = subprocess.run(
+        ["wsl", "bash", "-c", cmd],
+        capture_output=True, text=True, encoding="utf-8"
+    )
     return result.returncode == 0, result.stdout, result.stderr
 
 
@@ -59,12 +62,14 @@ Difficulty: 6kyu
     choice = input("请选择 (1/2): ").strip()
     
     code_content = ""
+    detected_ext = "js"  # 默认 js
     
     if choice == "1":
         file_path = input("\n请输入代码文件路径: ").strip().strip('"').strip("'")
         if not os.path.exists(file_path):
             print(f"❌ 文件不存在: {file_path}")
             return
+        detected_ext = os.path.splitext(file_path)[1].lstrip('.') or "js"
         with open(file_path, 'r', encoding='utf-8') as f:
             code_content = f.read()
     else:
@@ -76,6 +81,8 @@ Difficulty: 6kyu
                 break
             lines.append(line)
         code_content = "\n".join(lines)
+        lang = input("语言（js/py，直接回车默认 js）: ").strip().lower() or "js"
+        detected_ext = "js" if lang in ("js", "javascript") else lang
     
     # 提取信息
     info = extract_problem_info(code_content)
@@ -103,21 +110,11 @@ Difficulty: 6kyu
     solution_dir = f"solutions/{today}"
     os.makedirs(solution_dir, exist_ok=True)
     
-    solution_file = f"{solution_dir}/{info['name']}.py"
+    solution_file = f"{solution_dir}/{info['name']}.{detected_ext}"
     with open(solution_file, 'w', encoding='utf-8') as f:
         f.write(code_content)
     
-    readme_file = f"{solution_dir}/README.md"
-    with open(readme_file, 'w', encoding='utf-8') as f:
-        f.write(f"# {info['name']}\n\n")
-        f.write(f"**Difficulty:** {info['difficulty']}  \n")
-        f.write(f"**Solved on:** {today}  \n")
-        if info['url']:
-            f.write(f"**URL:** {info['url']}\n\n")
-        f.write(f"\n## Solution\n\n")
-        f.write(f"```python\n{code_content}\n```\n")
-    
-    print(f"\n✓ 文件已创建在: {solution_dir}/")
+    print(f"\n✓ 文件已创建: {solution_file}")
     
     # Git提交
     commit_message = f"Add solution: {info['name']} ({info['difficulty']}) - {today}"

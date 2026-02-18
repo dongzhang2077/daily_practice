@@ -19,6 +19,7 @@ class DailyPracticeSubmitter:
         self.config = self.load_config()
         self.today = datetime.now().strftime("%Y-%m-%d")
         self.solution_dir = f"solutions/{self.today}"
+        self.detected_ext = "js"  # 默认 js，get_code_input 会更新
         
     def load_config(self):
         """加载配置文件"""
@@ -29,8 +30,11 @@ class DailyPracticeSubmitter:
         return {}
     
     def run_command(self, cmd):
-        """执行shell命令"""
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        """执行shell命令（通过 wsl 运行以支持 UNC 路径）"""
+        result = subprocess.run(
+            ["wsl", "bash", "-c", cmd],
+            capture_output=True, text=True, encoding="utf-8"
+        )
         return result.returncode == 0, result.stdout, result.stderr
     
     def extract_info_from_code(self, code):
@@ -94,6 +98,7 @@ class DailyPracticeSubmitter:
             if not os.path.exists(file_path):
                 print(f"❌ 文件不存在: {file_path}")
                 sys.exit(1)
+            self.detected_ext = Path(file_path).suffix.lstrip('.') or "js"
             with open(file_path, 'r', encoding='utf-8') as f:
                 return f.read()
         
@@ -108,6 +113,8 @@ class DailyPracticeSubmitter:
                 sys.exit(1)
         
         else:  # choice == "2"
+            lang = input("语言（js/py，直接回车默认 js）: ").strip().lower() or "js"
+            self.detected_ext = "js" if lang in ("js", "javascript") else lang
             print("\n粘贴代码（完成后单独一行输入 END）:")
             lines = []
             while True:
@@ -133,6 +140,8 @@ class DailyPracticeSubmitter:
                 info['name'] = confirm
         else:
             info['name'] = input("题目名称（英文，用下划线）: ").strip()
+        # 规范化文件名：空格→下划线，去掉开头下划线
+        info['name'] = info['name'].replace(' ', '_').strip('_')
         
         if info['difficulty']:
             print(f"难度等级: {info['difficulty']}")
@@ -154,34 +163,32 @@ class DailyPracticeSubmitter:
     def create_files(self, info, code):
         """创建解题文件"""
         os.makedirs(self.solution_dir, exist_ok=True)
+        ext = self.detected_ext
         
         # 创建代码文件
-        solution_file = f"{self.solution_dir}/{info['name']}.py"
+        solution_file = f"{self.solution_dir}/{info['name']}.{ext}"
         with open(solution_file, 'w', encoding='utf-8') as f:
             # 如果代码开头没有信息注释，添加一个
             if not any(keyword in code[:200].lower() for keyword in ['problem:', '题目:', 'url:']):
-                f.write('"""\n')
-                f.write(f"Problem: {info['name']}\n")
-                if info['url']:
-                    f.write(f"URL: {info['url']}\n")
-                f.write(f"Difficulty: {info['difficulty']}\n")
-                f.write(f"Date: {self.today}\n")
-                f.write('"""\n\n')
+                if ext == "js":
+                    f.write('/*\n')
+                    f.write(f"Problem: {info['name']}\n")
+                    if info['url']:
+                        f.write(f"URL: {info['url']}\n")
+                    f.write(f"Difficulty: {info['difficulty']}\n")
+                    f.write(f"Date: {self.today}\n")
+                    f.write('*/\n\n')
+                else:
+                    f.write('"""\n')
+                    f.write(f"Problem: {info['name']}\n")
+                    if info['url']:
+                        f.write(f"URL: {info['url']}\n")
+                    f.write(f"Difficulty: {info['difficulty']}\n")
+                    f.write(f"Date: {self.today}\n")
+                    f.write('"""\n\n')
             f.write(code)
         
-        # 创建README
-        if self.config.get('preferences', {}).get('create_readme', True):
-            readme_file = f"{self.solution_dir}/README.md"
-            with open(readme_file, 'w', encoding='utf-8') as f:
-                f.write(f"# {info['name']}\n\n")
-                f.write(f"**难度:** {info['difficulty']}  \n")
-                f.write(f"**完成时间:** {self.today}  \n")
-                if info['url']:
-                    f.write(f"**链接:** {info['url']}\n")
-                f.write(f"\n## 解决方案\n\n")
-                f.write(f"查看 [`{info['name']}.py`](./{info['name']}.py)\n")
-        
-        print(f"\n✓ 文件已创建: {self.solution_dir}/{info['name']}.py")
+        print(f"\n✓ 文件已创建: {solution_file}")
         return solution_file
     
     def commit_and_push(self, info):

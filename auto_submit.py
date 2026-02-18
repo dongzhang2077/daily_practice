@@ -11,8 +11,11 @@ from datetime import datetime
 
 
 def run_command(cmd, cwd=None):
-    """执行shell命令"""
-    result = subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True)
+    """执行shell命令（通过 wsl 运行以支持 UNC 路径）"""
+    result = subprocess.run(
+        ["wsl", "bash", "-c", cmd],
+        capture_output=True, text=True, encoding="utf-8"
+    )
     return result.returncode == 0, result.stdout, result.stderr
 
 
@@ -38,16 +41,11 @@ def main():
     problem_name = input("\n题目名称（英文，用下划线分隔）: ").strip()
     problem_url = input("题目链接（Codewars URL）: ").strip()
     difficulty = input("难度等级（如 6kyu, 7kyu）: ").strip()
-    
-    # 获取题目描述
-    problem_description = get_multiline_input("题目描述（中文或英文）:")
+    language = input("语言（js/py，直接回车默认 js）: ").strip().lower() or "js"
+    ext = "js" if language in ("js", "javascript") else language
     
     # 获取解题代码
     solution_code = get_multiline_input("你的解题代码:")
-    
-    # 获取解题思路（可选）
-    print("\n解题思路/笔记（可选，直接回车跳过）:")
-    notes = input().strip()
     
     # 创建目录结构
     today = datetime.now().strftime("%Y-%m-%d")
@@ -55,33 +53,25 @@ def main():
     os.makedirs(solution_dir, exist_ok=True)
     
     # 写入解题代码
-    solution_file = f"{solution_dir}/{problem_name}.py"
+    solution_file = f"{solution_dir}/{problem_name}.{ext}"
     with open(solution_file, 'w', encoding='utf-8') as f:
-        f.write(f'"""\n')
-        f.write(f'Problem: {problem_name}\n')
-        f.write(f'Difficulty: {difficulty}\n')
-        f.write(f'URL: {problem_url}\n')
-        f.write(f'Date: {today}\n')
-        f.write(f'"""\n\n')
+        if ext == "js":
+            f.write(f'/*\n')
+            f.write(f'Problem: {problem_name}\n')
+            f.write(f'Difficulty: {difficulty}\n')
+            f.write(f'URL: {problem_url}\n')
+            f.write(f'Date: {today}\n')
+            f.write(f'*/\n\n')
+        else:
+            f.write(f'"""\n')
+            f.write(f'Problem: {problem_name}\n')
+            f.write(f'Difficulty: {difficulty}\n')
+            f.write(f'URL: {problem_url}\n')
+            f.write(f'Date: {today}\n')
+            f.write(f'"""\n\n')
         f.write(solution_code)
     
-    # 创建README
-    readme_file = f"{solution_dir}/README.md"
-    with open(readme_file, 'w', encoding='utf-8') as f:
-        f.write(f"# {problem_name}\n\n")
-        f.write(f"**Difficulty:** {difficulty}  \n")
-        f.write(f"**Solved on:** {today}  \n")
-        f.write(f"**URL:** {problem_url}\n\n")
-        f.write(f"## Problem Description\n\n")
-        f.write(problem_description)
-        f.write(f"\n\n## Solution\n\n")
-        f.write(f"```python\n{solution_code}\n```\n")
-        if notes:
-            f.write(f"\n## Notes\n\n{notes}\n")
-    
-    print(f"\n✓ 文件已创建:")
-    print(f"  - {solution_file}")
-    print(f"  - {readme_file}")
+    print(f"\n✓ 文件已创建: {solution_file}")
     
     # Git提交
     commit_message = f"Add solution: {problem_name} ({difficulty}) - {today}"

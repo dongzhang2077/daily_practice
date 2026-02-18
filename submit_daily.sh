@@ -12,31 +12,17 @@ PROBLEM_NAME=$1
 SOLUTION_FILE=$2
 TODAY=$(date +%Y-%m-%d)
 DIR="solutions/$TODAY"
+EXT="${SOLUTION_FILE##*.}"
 
 # Create directory for today if it doesn't exist
 mkdir -p "$DIR"
 
-# Copy solution file
-cp "$SOLUTION_FILE" "$DIR/${PROBLEM_NAME}.py"
-
-# Create README for the problem
-cat > "$DIR/README.md" << EOF
-# $PROBLEM_NAME
-
-Solved on: $TODAY
-
-## Problem Description
-
-[Add problem description from Codewars]
-
-## Solution
-
-See [\`${PROBLEM_NAME}.py\`](./${PROBLEM_NAME}.py)
-EOF
+# Copy solution file, preserving original extension
+cp "$SOLUTION_FILE" "$DIR/${PROBLEM_NAME}.${EXT}"
 
 # Git operations
 git add .
 git commit -m "Add solution: $PROBLEM_NAME ($TODAY)"
+git push origin main
 
 echo "Solution added successfully!"
-echo "Don't forget to push: git push origin main"
