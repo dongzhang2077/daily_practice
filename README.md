@@ -101,9 +101,9 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- **Total problems solved:** 12
-- **Current streak:** 10 days
-- **Last updated:** 2026-02-19
+- **Total problems solved:** 13
+- **Current streak:** 11 days
+- **Last updated:** 2026-02-22
 
 ## 📈 难度分布
 
@@ -111,7 +111,7 @@ def two_sum(numbers, target):
 | ---- | ---- |
 | 8kyu | 2    |
 | 7kyu | 3    |
-| 6kyu | 5    |
+| 6kyu | 6    |
 | 5kyu | 1    |
 | 4kyu | 0    |
 
