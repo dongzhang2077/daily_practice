@@ -101,15 +101,15 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- **Total problems solved:** 9
-- **Current streak:** 8 days
+- **Total problems solved:** 10
+- **Current streak:** 9 days
 - **Last updated:** 2026-02-19
 
 ## 📈 难度分布
 
 | 难度 | 数量 |
 | ---- | ---- |
-| 8kyu | 1    |
+| 8kyu | 2    |
 | 7kyu | 2    |
 | 6kyu | 5    |
 | 5kyu | 0    |
