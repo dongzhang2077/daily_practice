@@ -12,10 +12,7 @@ Solutions are organized by date under `solutions/YYYY-MM-DD/`. Automation script
 
 ```
 daily_practice/
-├── auto_submit.py        # Interactive submission (full mode)
-├── quick_submit.py       # Streamlined submission
-├── super_submit.py       # Recommended: smartest submission tool
-├── submit_daily.sh       # Bash submission alternative
+├── super_submit.py       # Only submission tool used
 ├── config.json           # GitHub + preferences config
 ├── solutions/
 │   └── YYYY-MM-DD/
@@ -29,13 +26,8 @@ daily_practice/
 No formal build system, linter, or test suite exists.
 
 ```bash
-# Run any Python script directly
+# Submit a solution
 python3 super_submit.py
-python3 auto_submit.py
-python3 quick_submit.py
-
-# Bash submission
-./submit_daily.sh "problem_name" "/path/to/solution.py"
 
 # Verify a JS solution manually
 node solutions/2026-02-13/duplicate_encoder.js
@@ -55,8 +47,10 @@ Add solution: {problem_name} ({difficulty}) - {YYYY-MM-DD}
 
 Example: `Add solution: duplicate_encoder (6kyu) - 2026-02-13`
 
-**Workflow:** Scripts run `git add . && git commit && git push origin main`.
+**Workflow:** `super_submit.py` saves the solution file, auto-updates README stats, then runs `git add . && git commit && git push origin main`.
 Config `auto_push: true` in config.json skips confirmation prompts.
+
+**README auto-update:** `super_submit.py` scans `solutions/` after each submission and writes total count and difficulty distribution into the `<!-- STATS_START/END -->` and `<!-- DIFFICULTY_START/END -->` blocks in README.md.
 
 ## Code Style — Python Scripts
 
