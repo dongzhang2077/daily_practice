@@ -101,7 +101,7 @@ def two_sum(numbers, target):
 
 ## 📊 进度追踪
 
-- **Total problems solved:** 11
+- **Total problems solved:** 12
 - **Current streak:** 10 days
 - **Last updated:** 2026-02-19
 
@@ -112,7 +112,7 @@ def two_sum(numbers, target):
 | 8kyu | 2    |
 | 7kyu | 3    |
 | 6kyu | 5    |
-| 5kyu | 0    |
+| 5kyu | 1    |
 | 4kyu | 0    |
 
 ---
