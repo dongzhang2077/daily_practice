@@ -127,6 +127,10 @@ class DailyPracticeSubmitter:
                     break
             return '\n'.join(lines)
     
+    def _normalize_difficulty(self, raw):
+        """纯数字输入自动补 kyu，如 '6' → '6kyu'"""
+        return f"{raw}kyu" if re.match(r'^\d+$', raw.strip()) else raw.strip()
+
     def fill_missing_info(self, info):
         """填充缺失的信息"""
         print("\n" + "="*60)
@@ -145,11 +149,13 @@ class DailyPracticeSubmitter:
         
         if info['difficulty']:
             print(f"难度等级: {info['difficulty']}")
-            confirm = input("  (直接回车确认，或输入新等级): ").strip()
+            confirm = input("  (直接回车确认，或输入新等级，可只输数字如 6): ").strip()
             if confirm:
-                info['difficulty'] = confirm
+                info['difficulty'] = self._normalize_difficulty(confirm)
         else:
-            info['difficulty'] = input("难度等级（如 6kyu, 7kyu）: ").strip()
+            info['difficulty'] = self._normalize_difficulty(
+                input("难度等级（如 6kyu 或直接输 6）: ").strip()
+            )
         
         if info['url']:
             print(f"题目链接: {info['url']}")
@@ -285,35 +291,26 @@ class DailyPracticeSubmitter:
 
         print(f"✓ README 已更新: {total} 道题")
 
-    def commit_and_push(self, info):
-        """提交并推送到GitHub"""
+    def commit_only(self, info):
+        """git add + commit，不 push"""
         commit_msg = f"Add solution: {info['name']} ({info['difficulty']}) - {self.today}"
-        
+
         print(f"\n📝 提交消息: {commit_msg}")
-        
-        auto_push = self.config.get('preferences', {}).get('auto_push', False)
-        if not auto_push:
-            confirm = input("确认提交并推送? (y/n): ").strip().lower()
-            if confirm != 'y':
-                print("已取消提交。文件已保存在本地。")
-                return False
-        
-        # Git操作
+        confirm = input("确认提交? (y/n): ").strip().lower()
+        if confirm != 'y':
+            print("已取消提交。文件已保存在本地。")
+            return False
+
         self.run_command("git add .")
         success, stdout, stderr = self.run_command(f'git commit -m "{commit_msg}"')
-        if not success:
-            print(f"⚠️  Commit可能失败: {stderr}")
-        
-        success, stdout, stderr = self.run_command("git push origin main")
         if success:
             print("\n" + "="*60)
-            print("✅ 成功提交到GitHub!")
+            print("✅ Commit 完成！")
+            print("推送时执行: git push origin main")
             print("="*60)
-            repo_url = f"https://github.com/{self.config.get('github', {}).get('username', 'dongzhang2077')}/daily_practice"
-            print(f"查看: {repo_url}")
             return True
         else:
-            print(f"❌ 推送失败: {stderr}")
+            print(f"❌ Commit 失败: {stderr}")
             return False
     
     def run(self):
@@ -339,7 +336,7 @@ class DailyPracticeSubmitter:
         self.update_readme_stats(total, difficulty_count)
 
         # 提交
-        self.commit_and_push(info)
+        self.commit_only(info)
 
 
 if __name__ == "__main__":

@@ -47,8 +47,7 @@ Add solution: {problem_name} ({difficulty}) - {YYYY-MM-DD}
 
 Example: `Add solution: duplicate_encoder (6kyu) - 2026-02-13`
 
-**Workflow:** `super_submit.py` saves the solution file, auto-updates README stats, then runs `git add . && git commit && git push origin main`.
-Config `auto_push: true` in config.json skips confirmation prompts.
+**Workflow:** `super_submit.py` saves the solution file, auto-updates README stats, then runs `git add . && git commit` (with confirmation prompt). Push is done manually afterwards: `git push origin main`.
 
 **README auto-update:** `super_submit.py` scans `solutions/` after each submission and writes total count and difficulty distribution into the `<!-- STATS_START/END -->` and `<!-- DIFFICULTY_START/END -->` blocks in README.md.
 
@@ -168,5 +167,5 @@ Do not hardcode GitHub credentials. Read from config.json at runtime.
 4. **No linter/formatter configured.** Match existing style by reading adjacent files.
 5. **Solutions can be JS or Python** — file extension in scripts defaults to `.py` but actual solutions use `.js`. Respect the language used.
 6. **Dates matter.** Solutions are organized by `YYYY-MM-DD`. Use `datetime.now()` or `date +%Y-%m-%d`.
-7. **Don't break auto_push.** The scripts auto-commit and push. Be careful with `git add .` scope.
+7. **No auto-push.** Scripts only `git add` and `git commit`. User pushes manually. Be careful with `git add .` scope.
 8. **Keep it simple.** This is a personal practice repo — no CI/CD, no complex tooling. Prefer concise inline comments over separate documentation.
