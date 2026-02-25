@@ -45,8 +45,8 @@ Date: 2026-02-22
 ## 📊 进度追踪
 
 <!-- STATS_START -->
-- **Total problems solved:** 15
-- **Last updated:** 2026-02-24
+- **Total problems solved:** 16
+- **Last updated:** 2026-02-25
 <!-- STATS_END -->
 
 ## 📈 难度分布
@@ -58,6 +58,7 @@ Date: 2026-02-22
 | 7kyu | 3    |
 | 6kyu | 8    |
 | 5kyu | 2    |
+| 4kyu | 1    |
 <!-- DIFFICULTY_END -->
 
 ---
