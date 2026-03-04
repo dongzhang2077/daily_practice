@@ -15,6 +15,15 @@ from pathlib import Path
 
 
 class DailyPracticeSubmitter:
+    @staticmethod
+    def sanitize_filename(name):
+        """移除文件名中不合法的字符（Windows/Linux通用）"""
+        # 替换 Windows 不允许的字符: \ / : * ? " < > |
+        sanitized = re.sub(r'[\\/:*?"<>|]', '', name)
+        # 去除首尾空格和点号（Windows不允许）
+        sanitized = sanitized.strip('. ')
+        return sanitized or 'unnamed'
+
     def __init__(self):
         self.config = self.load_config()
         self.today = datetime.now().strftime("%Y-%m-%d")
@@ -175,8 +184,9 @@ class DailyPracticeSubmitter:
         os.makedirs(self.solution_dir, exist_ok=True)
         ext = self.detected_ext
         
-        # 创建代码文件
-        solution_file = f"{self.solution_dir}/{info['name']}.{ext}"
+        # 创建代码文件（文件名需要移除非法字符）
+        safe_name = self.sanitize_filename(info['name'])
+        solution_file = f"{self.solution_dir}/{safe_name}.{ext}"
         with open(solution_file, 'w', encoding='utf-8') as f:
             # 如果代码开头没有信息注释，添加一个
             if not any(keyword in code[:200].lower() for keyword in ['problem:', '题目:', 'url:']):
