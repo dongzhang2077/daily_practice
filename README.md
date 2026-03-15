@@ -46,7 +46,7 @@ Date: 2026-02-22
 
 <!-- STATS_START -->
 - **Total problems solved:** 24
-- **Last updated:** 2026-03-14
+- **Last updated:** 2026-03-15
 <!-- STATS_END -->
 
 ## 📈 难度分布
