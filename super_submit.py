@@ -107,7 +107,9 @@ class DailyPracticeSubmitter:
             if not os.path.exists(file_path):
                 print(f"❌ 文件不存在: {file_path}")
                 sys.exit(1)
-            self.detected_ext = Path(file_path).suffix.lstrip('.') or "js"
+            # 只认可已知代码后缀，其余（如 .txt）一律当作 js 处理
+            src_ext = Path(file_path).suffix.lstrip('.').lower()
+            self.detected_ext = src_ext if src_ext in ('js', 'py', 'ts') else "js"
             with open(file_path, 'r', encoding='utf-8') as f:
                 return f.read()
         
