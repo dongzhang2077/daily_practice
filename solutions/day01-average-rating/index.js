@@ -129,3 +129,40 @@ console.assert(
   result === 7.0,
   "Expected average rating to be 7.0, but got " + result,
 );
+
+// // countMoviesAtLeast(movies, minRating)
+
+// 要求：
+
+// - 返回 rating >= minRating 的电影数量，包括等于门槛的电影。
+// - 空数组返回 0。
+// - 不修改输入数组。
+// - 假设每部电影都有合法的数字评分，暂不处理异常数据。
+
+function countMoviesAtLeast(movies, minRating) {
+  return movies.filter((movie) => movie.rating >= minRating).length;
+}
+
+const sampleMovies = [{ rating: 6 }, { rating: 8 }, { rating: 9 }];
+
+console.assert(countMoviesAtLeast([], 0) === 0);
+console.assert(countMoviesAtLeast(sampleMovies, 6) === 3);
+console.assert(countMoviesAtLeast(sampleMovies, 7) === 2);
+console.assert(countMoviesAtLeast(sampleMovies, 10) === 0);
+
+// 补充写法
+
+function countMoviesAtLeast1(movies, minRating) {
+  let count = 0;
+  for (const movie of movies) {
+    if (movie.rating >= minRating) {
+      count++;
+    }
+  }
+  return count;
+}
+
+console.assert(countMoviesAtLeast1([], 0) === 0);
+console.assert(countMoviesAtLeast1(sampleMovies, 6) === 3);
+console.assert(countMoviesAtLeast1(sampleMovies, 7) === 2);
+console.assert(countMoviesAtLeast1(sampleMovies, 10) === 0);
