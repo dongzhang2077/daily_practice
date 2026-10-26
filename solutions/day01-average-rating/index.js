@@ -119,3 +119,13 @@ console.assert(
   "Expected average rating to be 8.0, but got " +
     getAverageRating([createMovieObject("test", 2026, "test", 8, 120)]),
 );
+
+// Test: when enter two movie's rating are 8 and 6, the avg rating should be 7.0
+const result = getAverageRating([
+  createMovieObject("test1", 2026, "test", 7, 120),
+  createMovieObject("test2", 2026, "test", 6, 120),
+]);
+console.assert(
+  result === 7.0,
+  "Expected average rating to be 7.0, but got " + result,
+);
