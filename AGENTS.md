@@ -8,18 +8,37 @@ Solutions are organized by date under `solutions/YYYY-MM-DD/`. Automation script
 **Repository:** https://github.com/dongzhang2077/daily_practice
 **Branch:** main
 
+## Long-Term Coding Coaching
+
+- Before assigning rehabilitation tasks, read `LEARNING_GUIDE.md`, `LEARNER_STATE.md`, the latest one or two dated files in `practice-logs/`, and the relevant learner code. These files are the continuity record, not a claim of automatic cross-chat memory.
+- The learner owns problem solving, implementation, debugging, and decisions. AI designs bounded tasks, offers graduated help, reviews, verifies, and maintains concise learning records. Do not write or repair the target implementation unless the learner explicitly requests it.
+- Preserve the current hard limit of five minutes per learner practice session. Increase difficulty by changing one dimension, not by increasing time or requiring bonus work.
+- Follow the coaching workflow and evidence rules in `LEARNING_GUIDE.md`. Update `LEARNER_STATE.md` only when new evidence warrants a change; keep dated session details in `practice-logs/`.
+- The learner's current instructions take precedence over these documents. Keep guidance and evidence records consistent when preferences change.
+
 ## Directory Structure
 
 ```
 daily_practice/
 ├── super_submit.py       # Only submission tool used
 ├── config.json           # GitHub + preferences config
+├── practice-logs/        # Dated coding rehabilitation logs and AI handoff notes
 ├── solutions/
 │   └── YYYY-MM-DD/
 │       └── problem_name.js   # Solution file (with inline comments)
 ```
 
-**Note:** Daily README files are NO LONGER created. Keep it simple - all notes, thoughts, and learning points go directly in the solution file as English comments.
+**Note:** Do not create daily README files under `solutions/`. Keep code-specific explanations in English comments. Coding rehabilitation session logs belong in `practice-logs/YYYY-MM-DD.md` and may be written in Chinese.
+
+## Coding Rehabilitation Practice Logs
+
+- Store session summaries in `practice-logs/YYYY-MM-DD.md`; append multiple sessions on the same day to the same file.
+- After a completed practice session has been reviewed, draft or update the dated log from the actual conversation, code, and verification results as the learner's standing preference. Do not require a new request or add writing work to the learner's five-minute session. If the learner is still working, record outcomes as pending rather than completed.
+- Record the task, code location, demonstrated behavior, references/help used, concepts clarified, verification results, and one next assessment point. Include at most two candidate flashcards when useful.
+- Distinguish learner implementations, AI reference implementations, user-reported actions, and agent-verified results. Do not infer independent mastery from reference code or claim a push or time limit was verified when it was not.
+- Preserve unresolved failures in the log; do not silently fix learner code or convert uncertain outcomes into successes.
+- Logs are not full chat transcripts. Use them with the linked code when handing off to another AI. Do not invent session dates or retrospectively mark skills as mastered.
+- Do not automatically commit or push logs. Use scoped staging if the learner asks to commit them.
 
 ## Build / Lint / Test Commands
 
@@ -127,7 +146,7 @@ const assert = chai.assert;
 // ... test code
 ```
 
-**Important:** All thoughts, algorithm explanations, and learning points should be in **English comments** within the code. Do NOT create separate README.md files for daily solutions.
+**Important:** Keep code-specific algorithm explanations in **English comments** within the code. Put broader coding rehabilitation reflections and AI handoff summaries in `practice-logs/` (Chinese is allowed). Do NOT create separate README.md files for daily solutions.
 
 ### Naming
 - **Functions:** `camelCase` — `duplicateEncode`, `isUndefined`
@@ -162,10 +181,10 @@ Do not hardcode GitHub credentials. Read from config.json at runtime.
 ## Important Notes for Agents
 
 1. **Language:** User interface and documentation are in Chinese (zh-CN). Maintain this.
-2. **No daily README files:** Do NOT create `solutions/YYYY-MM-DD/README.md`. All notes, thoughts, and learning points go directly in the solution file as **English comments**.
+2. **No daily solution README files:** Do NOT create `solutions/YYYY-MM-DD/README.md`. Keep code-specific explanations in English comments; store coding rehabilitation session logs in `practice-logs/YYYY-MM-DD.md`.
 3. **No tests exist.** Validate solutions manually with `node` if needed.
 4. **No linter/formatter configured.** Match existing style by reading adjacent files.
 5. **Solutions can be JS or Python** — file extension in scripts defaults to `.py` but actual solutions use `.js`. Respect the language used.
 6. **Dates matter.** Solutions are organized by `YYYY-MM-DD`. Use `datetime.now()` or `date +%Y-%m-%d`.
 7. **No auto-push.** Scripts only `git add` and `git commit`. User pushes manually. Be careful with `git add .` scope.
-8. **Keep it simple.** This is a personal practice repo — no CI/CD, no complex tooling. Prefer concise inline comments over separate documentation.
+8. **Keep it simple.** This is a personal practice repo — no CI/CD, no complex tooling. Use concise inline comments for code and concise dated files in `practice-logs/` for rehabilitation session summaries.
