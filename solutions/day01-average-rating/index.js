@@ -166,3 +166,49 @@ console.assert(countMoviesAtLeast1([], 0) === 0);
 console.assert(countMoviesAtLeast1(sampleMovies, 6) === 3);
 console.assert(countMoviesAtLeast1(sampleMovies, 7) === 2);
 console.assert(countMoviesAtLeast1(sampleMovies, 10) === 0);
+
+// day 3
+// countMoviesByGenre(movies)
+
+// 输入示例：
+
+// const genreSamples = [
+//   { genre: "Action" },
+//   { genre: "Drama" },
+//   { genre: "Action" },
+// ];
+
+// 预期返回：
+
+// {
+//   Action: 2,
+//   Drama: 1
+// }
+
+// 要求：
+
+// - 返回一个对象，记录每种类别出现的次数。
+// - 只包含输入中出现过的类别。
+// - 空数组返回空对象。
+// - 不修改输入；假设每条数据都有合法的 genre 字符串。
+
+function countMoviesByGenre(movies) {
+  const moveCount = {};
+  for (const movie of movies) {
+    if (moveCount[movie.genre]) {
+      moveCount[movie.genre]++;
+    } else {
+      moveCount[movie.genre] = 1;
+    }
+  }
+  return moveCount;
+}
+
+const genreSamples = [
+  { genre: "Action" },
+  { genre: "Drama" },
+  { genre: "Action" },
+];
+
+console.log(countMoviesByGenre([]));
+console.log(countMoviesByGenre(genreSamples));
