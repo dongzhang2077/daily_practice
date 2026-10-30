@@ -12,7 +12,8 @@ Solutions are organized by date under `solutions/YYYY-MM-DD/`. Automation script
 
 - Before assigning rehabilitation tasks, read `LEARNING_GUIDE.md`, `LEARNER_STATE.md`, the latest one or two dated files in `practice-logs/`, and the relevant learner code. These files are the continuity record, not a claim of automatic cross-chat memory.
 - The learner owns problem solving, implementation, debugging, and decisions. AI designs bounded tasks, offers graduated help, reviews, verifies, and maintains concise learning records. Do not write or repair the target implementation unless the learner explicitly requests it.
-- Preserve the current hard limit of five minutes per learner practice session. Increase difficulty by changing one dimension, not by increasing time or requiring bonus work.
+- The learner chooses the session budget. Default to a five-minute task when no preference is given; offer 10–15-minute combination tasks or 30–60-minute small-feature sessions when requested. Honor a clear request to continue or change the budget without a redundant approval step. AI must not increase time or task scope on its own.
+- Match task scope to the chosen budget and available evidence. A longer session is not an obligation or a higher skill grade; returning to five minutes next time remains valid. Preserve the learner's ownership of core problem decomposition and implementation in all modes.
 - Follow the coaching workflow and evidence rules in `LEARNING_GUIDE.md`. Update `LEARNER_STATE.md` only when new evidence warrants a change; keep dated session details in `practice-logs/`.
 - The learner's current instructions take precedence over these documents. Keep guidance and evidence records consistent when preferences change.
 
@@ -33,8 +34,8 @@ daily_practice/
 ## Coding Rehabilitation Practice Logs
 
 - Store session summaries in `practice-logs/YYYY-MM-DD.md`; append multiple sessions on the same day to the same file.
-- After a completed practice session has been reviewed, draft or update the dated log from the actual conversation, code, and verification results as the learner's standing preference. Do not require a new request or add writing work to the learner's five-minute session. If the learner is still working, record outcomes as pending rather than completed.
-- Record the task, code location, demonstrated behavior, references/help used, concepts clarified, verification results, and one next assessment point. Include at most two candidate flashcards when useful.
+- After a completed practice session has been reviewed, draft or update the dated log from the actual conversation, code, and verification results as the learner's standing preference. Do not require a new request or add administrative writing work to the learner's session. If the learner is still working, record outcomes as pending rather than completed.
+- Record the chosen budget, reported actual time if available, task, main observation point, code location, demonstrated behavior, references/help used, concepts clarified, verification results, and one next assessment point. Distinguish main observations from incidental evidence across reasoning, implementation, debugging, and verification; do not force every session to cover all four. Include at most two candidate flashcards when useful.
 - Distinguish learner implementations, AI reference implementations, user-reported actions, and agent-verified results. Do not infer independent mastery from reference code or claim a push or time limit was verified when it was not.
 - Preserve unresolved failures in the log; do not silently fix learner code or convert uncertain outcomes into successes.
 - Logs are not full chat transcripts. Use them with the linked code when handing off to another AI. Do not invent session dates or retrospectively mark skills as mastered.
