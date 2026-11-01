@@ -24,6 +24,7 @@ daily_practice/
 ├── super_submit.py       # Only submission tool used
 ├── config.json           # GitHub + preferences config
 ├── practice-logs/        # Dated coding rehabilitation logs and AI handoff notes
+├── anki/                 # Weekly concept-review CSV exports and import guidance
 ├── solutions/
 │   └── YYYY-MM-DD/
 │       └── problem_name.js   # Solution file (with inline comments)
@@ -40,6 +41,17 @@ daily_practice/
 - Preserve unresolved failures in the log; do not silently fix learner code or convert uncertain outcomes into successes.
 - Logs are not full chat transcripts. Use them with the linked code when handing off to another AI. Do not invent session dates or retrospectively mark skills as mastered.
 - Do not automatically commit or push logs. Use scoped staging if the learner asks to commit them.
+
+## Weekly Concept Review
+
+Before weekly review-material work, read `anki/README.md`. Treat that directory as Chinese learning material, separate from daily solution README restrictions.
+
+- At a week's wrap-up, the first session of a new week, or an explicit review request, prepare or update `anki/YYYY-Www.csv` from actual logs, questions, and code. This occurs during an active conversation; do not imply autonomous background scheduling.
+- Preserve source dates and stable card tags, deduplicate existing concepts, and export only a small useful set. A midweek export must state its evidence cutoff and must not include future sessions.
+- Use UTF-8 and an actual CSV writer; make HTML code safe to display. Follow the format and duplicate handling in `anki/README.md`.
+- Clearly distinguish understanding after explanation, successful recall on a card, and independent application. Do not overwrite initial support conditions or declare stable mastery based on one explanation or card answer.
+- Keep daily candidate concepts small; weekly cards may split a candidate into short questions. Do not force cards for every API, every task, or every day. Test uncertain code predictions before exporting.
+- Respect the learner's chosen time budget. Generating materials is AI administrative work; adding an extra review session requires the learner's choice. Do not operate their Anki, commit, or push without authorization.
 
 ## Build / Lint / Test Commands
 
