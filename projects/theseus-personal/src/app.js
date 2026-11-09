@@ -14,18 +14,36 @@ This task covers only starting one activity. Elapsed display updates,
 stopping, parallel activities, and persistence will be connected later.
 Documentation is allowed; note any references or help used.
 */
-
+import { getElapsedSeconds } from "../src/elapsed_time.js";
 const startButton = document.querySelector("#start-button");
 const statusText = document.querySelector("#timer-status");
+const secondsCounter = document.querySelector("#elapsed-seconds");
 let startedAtMs = null;
+let counter = 0;
+let intervalId = null;
 
 function handleStart() {
   // TODO: store the current timestamp, update the status, and disable Start.
   // get current time and store it
-  let timeNow = Date.now();
-  startedAtMs = timeNow;
-  statusText.textContent = "计时中";
-  startButton.disabled = !startButton.disabled;
+  if (counter === 0) {
+    let timeNow = Date.now();
+    // how to set the startedAtMs and store it in somewhere to get it when 2nd click
+    // get the time when first click, but when you next click, the startedAtMs will change
+    startedAtMs = timeNow;
+    statusText.textContent = "计时中";
+    // set the secondsCounter sequentially
+    intervalId = setInterval(() => {
+      secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
+    }, 1000);
+    startButton.textContent = "结束计时";
+    counter++;
+  } else {
+    statusText.textContent = "已结束";
+    clearInterval(intervalId);
+    secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
+    startButton.textContent = "已结束";
+    startButton.disabled = true;
+  }
 }
 
 // The event wiring and diagnostic output are supplied for this exercise.
