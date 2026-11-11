@@ -18,14 +18,20 @@ import { getElapsedSeconds } from "../src/elapsed_time.js";
 const startButton = document.querySelector("#start-button");
 const statusText = document.querySelector("#timer-status");
 const secondsCounter = document.querySelector("#elapsed-seconds");
+const secondBtn = document.querySelector("#reading-start-button");
+const readStatus = document.querySelector("#reading-status");
+const secondsCounterSecond = document.querySelector("#reading-elapsed-seconds");
 let startedAtMs = null;
-let counter = 0;
+let startedAtMsSecond = null;
+let hasStarted = true;
+let hasStartedSecond = true;
 let intervalId = null;
+let intervalIdSecond = null;
 
 function handleStart() {
   // TODO: store the current timestamp, update the status, and disable Start.
   // get current time and store it
-  if (counter === 0) {
+  if (hasStarted) {
     let timeNow = Date.now();
     // how to set the startedAtMs and store it in somewhere to get it when 2nd click
     // get the time when first click, but when you next click, the startedAtMs will change
@@ -36,7 +42,7 @@ function handleStart() {
       secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
     }, 1000);
     startButton.textContent = "结束计时";
-    counter++;
+    hasStarted = false;
   } else {
     statusText.textContent = "已结束";
     clearInterval(intervalId);
@@ -45,11 +51,45 @@ function handleStart() {
     startButton.disabled = true;
   }
 }
+function handleSecond() {
+  // TODO: store the current timestamp, update the status, and disable Start.
+  // get current time and store it
+  if (hasStartedSecond) {
+    let timeNow = Date.now();
+    // how to set the startedAtMs and store it in somewhere to get it when 2nd click
+    // get the time when first click, but when you next click, the startedAtMs will change
+    startedAtMsSecond = timeNow;
+    readStatus.textContent = "计时中";
+    // set the secondsCounter sequentially
+    intervalIdSecond = setInterval(() => {
+      secondsCounterSecond.textContent = getElapsedSeconds(
+        startedAtMsSecond,
+        Date.now(),
+      );
+    }, 1000);
+    secondBtn.textContent = "结束计时";
+    hasStartedSecond = false;
+  } else {
+    readStatus.textContent = "已结束";
+    clearInterval(intervalIdSecond);
+    secondsCounterSecond.textContent = getElapsedSeconds(
+      startedAtMsSecond,
+      Date.now(),
+    );
+    secondBtn.textContent = "已结束";
+    secondBtn.disabled = true;
+  }
+}
 
 // The event wiring and diagnostic output are supplied for this exercise.
 startButton.addEventListener("click", () => {
   handleStart();
   console.log("Start timestamp (ms):", startedAtMs);
+});
+
+secondBtn.addEventListener("click", () => {
+  handleSecond();
+  console.log("Start timestamp (ms):", startedAtMsSecond);
 });
 
 // References / help used:
