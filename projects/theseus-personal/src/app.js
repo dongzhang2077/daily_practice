@@ -27,13 +27,29 @@ function setupTimer(button, statusText, secondsCounter) {
   let isFirstClick = true;
   let intervalId = null;
 
+  //刷新，页面加载时
+  if (getStorage(button)) {
+    isFirstClick = false;
+    statusText.textContent = "计时中";
+    startedAtMs = getStorage(button);
+    secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
+    intervalId = setInterval(() => {
+      secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
+    }, 1000);
+    button.textContent = "结束计时";
+  }
+
   button.addEventListener("click", () => {
     // Move the existing start/stop logic here.
     if (isFirstClick) {
-      let timeNow = Date.now();
-      startedAtMs = timeNow;
+      startedAtMs = getStorage(button) ? getStorage(button) : Date.now();
       statusText.textContent = "计时中";
+      // 保存startedAtMs, 如果原本就没有，那就初始化，否则不初始化
+      if (!getStorage(button)) {
+        populateStorage(button, startedAtMs);
+      }
       // set the secondsCounter sequentially
+      // 现在我需要的是，会监测并更新，所有的button以及文字的状态，这种实际上react会做
       intervalId = setInterval(() => {
         secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
       }, 1000);
@@ -43,10 +59,30 @@ function setupTimer(button, statusText, secondsCounter) {
       statusText.textContent = "已结束";
       clearInterval(intervalId);
       secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
+      localStorage.removeItem(button.id);
       button.textContent = "已结束";
       button.disabled = true;
     }
   });
+}
+
+// 为了实现当前功能，需求是将每个活动对应的starttime交由local保存
+function populateStorage(button, startedAtMs) {
+  //将button转换成string
+  const buttonVar = button.id;
+  //验证是否为空，等于每个btn，最多只能存一个startedAtMs
+  //没必要，因为setItem自己可以做这个，即存在会覆盖原值
+  localStorage.setItem(buttonVar, startedAtMs);
+}
+// 刷新页面之后，需要重新触发对应的function，继续计时
+function getStorage(button) {
+  const buttonVar = button.id;
+  const startedAtMs = localStorage.getItem(buttonVar)
+    ? localStorage.getItem(buttonVar)
+    : -1;
+  if (startedAtMs >= 0) {
+    return startedAtMs;
+  }
 }
 
 setupTimer(startButton, statusText, secondsCounter);
