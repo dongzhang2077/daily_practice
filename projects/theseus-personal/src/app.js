@@ -21,6 +21,7 @@ const secondsCounter = document.querySelector("#elapsed-seconds");
 const secondBtn = document.querySelector("#reading-start-button");
 const readStatus = document.querySelector("#reading-status");
 const secondsCounterSecond = document.querySelector("#reading-elapsed-seconds");
+const sessionList = [];
 
 function setupTimer(button, statusText, secondsCounter) {
   let startedAtMs = null;
@@ -58,12 +59,26 @@ function setupTimer(button, statusText, secondsCounter) {
     } else {
       statusText.textContent = "已结束";
       clearInterval(intervalId);
-      secondsCounter.textContent = getElapsedSeconds(startedAtMs, Date.now());
+      let endedAtMs = Date.now();
+      secondsCounter.textContent = getElapsedSeconds(startedAtMs, endedAtMs);
       localStorage.removeItem(button.id);
       button.textContent = "已结束";
       button.disabled = true;
+      // record the session
+      putSession(button.id, startedAtMs, endedAtMs, "");
+      // nodeId crypto.randomUUID()
     }
   });
+}
+
+function putSession(nodeId, startedAtMs, endedAtMs, note) {
+  const session = {
+    nodeId: nodeId,
+    startedAtMs: startedAtMs,
+    endedAtMs: endedAtMs,
+    note: note,
+  };
+  sessionList.push(session);
 }
 
 // 为了实现当前功能，需求是将每个活动对应的starttime交由local保存
@@ -78,7 +93,7 @@ function populateStorage(button, startedAtMs) {
 function getStorage(button) {
   const buttonVar = button.id;
   const startedAtMs = localStorage.getItem(buttonVar)
-    ? localStorage.getItem(buttonVar)
+    ? Number(localStorage.getItem(buttonVar))
     : -1;
   if (startedAtMs >= 0) {
     return startedAtMs;
