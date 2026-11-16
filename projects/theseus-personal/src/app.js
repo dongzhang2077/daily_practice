@@ -15,13 +15,22 @@ stopping, parallel activities, and persistence will be connected later.
 Documentation is allowed; note any references or help used.
 */
 import { getElapsedSeconds } from "../src/elapsed_time.js";
+//first button
 const startButton = document.querySelector("#start-button");
 const statusText = document.querySelector("#timer-status");
 const secondsCounter = document.querySelector("#elapsed-seconds");
+
+//second btn
 const secondBtn = document.querySelector("#reading-start-button");
 const readStatus = document.querySelector("#reading-status");
 const secondsCounterSecond = document.querySelector("#reading-elapsed-seconds");
-const sessionList = [];
+
+// session initial
+const sessionList = localStorage.getItem("session")
+  ? JSON.parse(localStorage.getItem("session"))
+  : [];
+
+const sessionDsiplayUl = document.querySelector("#completed-sessions");
 
 function setupTimer(button, statusText, secondsCounter) {
   let startedAtMs = null;
@@ -67,8 +76,26 @@ function setupTimer(button, statusText, secondsCounter) {
       // record the session
       putSession(button.id, startedAtMs, endedAtMs, "");
       // nodeId crypto.randomUUID()
+      console.log(sessionList);
     }
   });
+}
+
+function displaySessionList() {
+  // clear the ul in the screen
+  sessionDsiplayUl.replaceChildren();
+  if (sessionList) {
+    sessionList.foreach((session) => {
+      const li = document.createElement("li");
+      li.textContent =
+        session.nodeId +
+        " - " +
+        getElapsedSeconds(session.startedAtMs, session.endedAtMs) +
+        " 秒";
+      console.log(li);
+      sessionDsiplayUl.appendChild(li);
+    });
+  }
 }
 
 function putSession(nodeId, startedAtMs, endedAtMs, note) {
@@ -79,6 +106,19 @@ function putSession(nodeId, startedAtMs, endedAtMs, note) {
     note: note,
   };
   sessionList.push(session);
+  //store sessionlist
+  const sessionJSList = JSON.stringify(sessionList);
+  storeSession(sessionJSList);
+  displaySessionList();
+}
+
+function storeSession(sessionList) {
+  if (!sessionList) {
+    return;
+  }
+
+  localStorage.setItem("session", sessionList);
+  console.log(localStorage);
 }
 
 // 为了实现当前功能，需求是将每个活动对应的starttime交由local保存
@@ -100,5 +140,7 @@ function getStorage(button) {
   }
 }
 
+// display session
+displaySessionList();
 setupTimer(startButton, statusText, secondsCounter);
 setupTimer(secondBtn, readStatus, secondsCounterSecond);
