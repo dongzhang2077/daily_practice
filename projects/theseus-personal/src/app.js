@@ -85,7 +85,7 @@ function displaySessionList() {
   // clear the ul in the screen
   sessionDsiplayUl.replaceChildren();
   if (sessionList) {
-    sessionList.foreach((session) => {
+    sessionList.forEach((session) => {
       const li = document.createElement("li");
       li.textContent =
         session.nodeId +
